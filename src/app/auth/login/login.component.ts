@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
 
   public formSubmitted = false;
   public auth2: any;
+  @ViewChild('googleBtn')
+  googleBtn!: ElementRef;
 
   public loginForm = this.fb.group({
     email: [ localStorage.getItem('email') || '' , [ Validators.required, Validators.email ] ],
@@ -24,10 +26,12 @@ export class LoginComponent implements OnInit {
   });
 
 
-  constructor( private router: Router,
-               private fb: FormBuilder,
-               private usuarioService: UsuarioService,
-               private ngZone: NgZone ) { }
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private usuarioService: UsuarioService,
+    private ngZone: NgZone )
+  { }
 
   ngOnInit(): void {
     // this.renderButton();
@@ -40,17 +44,21 @@ export class LoginComponent implements OnInit {
   googleInit(){
     google.accounts.id.initialize({
       client_id: '804191360855-jmtnl51pdmcg9c2co925gj898864of0m.apps.googleusercontent.com',
-      callback: this.handleCredentialResponse
+      callback: (response) => this.handleCredentialResponse(response)
     });
 
     google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
+      this.googleBtn.nativeElement,
       { theme: "outline", size: "large" }  // customization attributes
     );
   }
 
   handleCredentialResponse(response: any){
-    console.log("Encoded JWT ID token: " + response.credential);
+    this.usuarioService.loginGoogle(response.credential).subscribe((resp) => {
+      this.ngZone.run( () => {
+        this.router.navigateByUrl('/');
+      })
+    })
   }
 
 
