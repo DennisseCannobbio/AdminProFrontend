@@ -1,0 +1,128 @@
+<div class="row animated fadeIn fast">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar Usuario..."
+          (keyup)="buscar(txtTermino.value)"
+          #txtTermino
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="cargando">
+  <div class="col-12">
+    <div class="alert alert-info text-center">
+      <h4 class="alert-heading">Cargando...</h4>
+      <i class="fa fa-spin fa-refresh fa-2x"></i>
+      <p class="mb-0">Por favor espere...</p>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Total de Usuarios ({{ totalUsuarios }})</h4>
+        <h6 class="card-subtitle">Usuarios registrados en la aplicación.</h6>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="w100">Avatar</th>
+                <th>Correo</th>
+                <th>Nombre</th>
+                <th class="w140">Rol</th>
+                <th class="text-center">Auth</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of usuarios">
+                <td class="text-center">
+                  <img
+                    [src]="item.imagenUrl"
+                    class="avatar"
+                    style="cursor: pointer"
+                    (click)="abrirModal(item)"
+                  />
+                </td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.nombre }}</td>
+                <td>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="item.role"
+                    (change)="cambiarRole(item)"
+                  >
+                    <option value="ADMIN_ROLE">Admin</option>
+                    <option value="USER_ROLE">User</option>
+                  </select>
+                </td>
+                <td class="text-center">
+                  <span *ngIf="item.google" class="label label-danger"
+                    >Google</span
+                  >
+                  <span *ngIf="!item.google" class="label label-info"
+                    >Email</span
+                  >
+                </td>
+
+                <td class="text-center">
+                  <button
+                    class="btn btn-circle btn-danger btn-sm"
+                    *ngIf="item.uid != usuarioService.uid"
+                    (click)="eliminarUsuario(item)"
+                  >
+                    <i class="fa fa-trash mb-1"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div *ngIf="txtTermino.value.length === 0">
+          <button class="btn btn-secondary" (click)="cambiarPagina(-5)">
+            Anterior
+          </button>
+          &nbsp;
+          <button class="btn btn-secondary" (click)="cambiarPagina(5)">
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #templateImg>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Subir Imagen</h4>
+      <button
+        type="button"
+        class="close cursor"
+        aria-hidden="true"
+        (click)="bsModalRef.hide()"
+      >
+        ×
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-modal-imagen
+        [img]="img"
+        [tipo]="tipo"
+        [id]="id"
+        (cerrarModal)="bsModalRef.hide()"
+        (obtenerUsuarios)="obtenerUsuarios()"
+      ></app-modal-imagen>
+    </div>
+  </div>
+</ng-template>

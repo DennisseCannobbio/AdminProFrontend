@@ -15,6 +15,10 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosComponent } from './mantenedor/usuarios/usuarios.component';
+import { HospitalesComponent } from './mantenedor/hospitales/hospitales.component';
+import { MedicosComponent } from './mantenedor/medicos/medicos.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 
@@ -29,6 +33,9 @@ import { PerfilComponent } from './perfil/perfil.component';
     PromesasComponent,
     RxjsComponent,
     PerfilComponent,
+    UsuariosComponent,
+    HospitalesComponent,
+    MedicosComponent,
   ],
   exports: [
     DashboardComponent,
@@ -43,7 +50,8 @@ import { PerfilComponent } from './perfil/perfil.component';
     SharedModule,
     RouterModule,
     ComponentsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ModalModule.forRoot(),
   ]
 })
 export class PagesModule { }

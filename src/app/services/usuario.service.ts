@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap, map, catchError } from 'rxjs/operators';
+import { tap, map, catchError, delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
@@ -38,6 +38,14 @@ export class UsuarioService {
 
   get uid(): string{
     return this.usuario.uid || '';
+  }
+
+  get headers(){
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    }
   }
 
   logout() {
@@ -91,14 +99,7 @@ export class UsuarioService {
       role: this.usuario.role
     }
 
-
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data,
-      {
-        headers: {
-          'x-token': this.token
-        }
-      }
-    )
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data,this.headers)
   }
 
   login( formData: LoginForm ) {
@@ -119,5 +120,29 @@ export class UsuarioService {
                   })
                 );
 
+  }
+
+  cargarUsuarios(desde: number = 0){
+    return this.http.get<any>(`${base_url}/usuarios?desde=${desde}`, this.headers)
+      .pipe(
+        map(resp => {
+          let usuarios = resp.usuarios.map(
+            user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+          )
+          return {
+            ok: resp.ok,
+            total: resp.total,
+            usuarios
+          };
+        })
+      )
+  }
+
+  eliminarUsuario(usuario: Usuario){
+    return this.http.delete<any>(`${base_url}/usuarios/${usuario.uid}`, this.headers);
+  }
+
+  cambiarRole(usuario: Usuario){
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario,this.headers)
   }
 }

@@ -1,0 +1,30 @@
+<h5>Seleccione una imagen</h5>
+
+<div class="text-center">
+  <img *ngIf="!imgTemp" [src]="img" class="img-avatar" />
+  <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" />
+</div>
+
+<input
+  type="file"
+  (change)="adjuntarImagen($event)"
+  [(ngModel)]="imagenEv"
+  class="mt-5 form-control"
+/>
+<br />
+<span *ngIf="imagenValida == false" class="text-left text-danger">
+  Debe seleccionar un formato válido (.jpg, .png, .jpeg)
+</span>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-danger"
+    data-dismiss="modal"
+    (click)="cerrar()"
+  >
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="guardarImagen()">
+    Actualizar imagen
+  </button>
+</div>
