@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 // Modulos
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
+import { PipesModule } from '../pipes/pipes.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -19,7 +20,7 @@ import { UsuariosComponent } from './mantenedor/usuarios/usuarios.component';
 import { HospitalesComponent } from './mantenedor/hospitales/hospitales.component';
 import { MedicosComponent } from './mantenedor/medicos/medicos.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-
+import { MedicoComponent } from './mantenedor/medicos/medico/medico.component';
 
 
 
@@ -36,6 +37,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     UsuariosComponent,
     HospitalesComponent,
     MedicosComponent,
+    MedicoComponent,
   ],
   exports: [
     DashboardComponent,
@@ -52,6 +54,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ComponentsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
+    PipesModule
   ]
 })
 export class PagesModule { }

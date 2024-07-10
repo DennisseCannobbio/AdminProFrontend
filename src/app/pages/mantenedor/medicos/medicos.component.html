@@ -1,1 +1,114 @@
-<p>medicos works!</p>
+<div class="row animated fadeIn fast">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar Medico..."
+          #txtTermino
+          (keyup)="buscar(txtTermino.value)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="alert alert-info text-center" *ngIf="cargando">
+  <h4 class="alert-heading">Cargando...</h4>
+  <i class="fa fa-spin fa-refresh fa-2x"></i>
+  <p class="mb-0">Por favor espere...</p>
+</div>
+
+<div class="row" *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-8">
+            <h4 class="card-title">Médicos</h4>
+            <h6 class="card-subtitle">Médicos registrados en la aplicación.</h6>
+          </div>
+
+          <div class="col-4">
+            <div class="text-right">
+              <button
+                class="btn btn-success"
+                routerLink="/dashboard/medico/nuevo"
+              >
+                Agregar Médico
+                <i class="fa fa-user-md ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="w100">Imagen</th>
+                <th>Nombre</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let item of lstMedicos">
+              <tr>
+                <td class="text-center">
+                  <img
+                    (click)="abrirModalImagen(item)"
+                    [src]="item.img | imagen : 'medicos'"
+                    [alt]="item.nombre"
+                    class="avatar cursor"
+                  />
+                </td>
+                <td>{{ item.nombre }}</td>
+
+                <td class="text-center">
+                  <button
+                    class="btn btn-circle btn-primary btn-sm"
+                    [routerLink]="['/dashboard/medico', item._id]"
+                  >
+                    <i class="fa fa-pencil mb-1"></i>
+                  </button>
+                  &nbsp;
+                  <button
+                    class="btn btn-circle btn-danger btn-sm"
+                    (click)="eliminarMedico(item)"
+                  >
+                    <i class="fa fa-trash mb-1"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #templateImg>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Subir Imagen</h4>
+      <button
+        type="button"
+        class="close cursor"
+        aria-hidden="true"
+        (click)="bsModalRef.hide()"
+      >
+        ×
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-modal-imagen
+        [img]="img"
+        [tipo]="tipo"
+        [id]="id"
+        (cerrarModal)="bsModalRef.hide()"
+        (obtenerMedicos)="obtenerMedicos()"
+      ></app-modal-imagen>
+    </div>
+  </div>
+</ng-template>

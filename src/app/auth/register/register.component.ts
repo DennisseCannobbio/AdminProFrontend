@@ -30,7 +30,6 @@ export class RegisterComponent {
 
   crearUsuario() {
     this.formSubmitted = true;
-    console.log( this.registerForm.value );
 
     if ( this.registerForm.invalid ) {
       return;
@@ -39,7 +38,7 @@ export class RegisterComponent {
     // Realizar el posteo
     this.usuarioService.crearUsuario( this.registerForm.value )
         .subscribe( resp => {
-          
+
           // Navegar al Dashboard
           this.router.navigateByUrl('/');
 
@@ -52,7 +51,7 @@ export class RegisterComponent {
   }
 
   campoNoValido( campo: string ): boolean {
-    
+
     if ( this.registerForm.get(campo).invalid && this.formSubmitted ) {
       return true;
     } else {

@@ -99,7 +99,6 @@ export class UsuariosComponent implements OnInit {
 
         this.usuarioService.eliminarUsuario(usuario)
           .subscribe((resp) => {
-            console.log(resp)
 
             if(resp.ok == true) {
               Swal.fire({

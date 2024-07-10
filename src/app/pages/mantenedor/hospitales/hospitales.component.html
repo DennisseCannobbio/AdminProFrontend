@@ -1,1 +1,157 @@
-<p>hospitales works!</p>
+<div class="row animated fadeIn fast">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar Hospital..."
+          (keyup)="buscar(txtTermino.value)"
+          #txtTermino
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="alert alert-info text-center" *ngIf="cargando">
+  <h4 class="alert-heading">Cargando...</h4>
+  <i class="fa fa-spin fa-refresh fa-2x"></i>
+  <p class="mb-0">Por favor espere...</p>
+</div>
+
+<div class="row" *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-8">
+            <h4 class="card-title">Hospitales ({{ hospitales.length }})</h4>
+            <h6 class="card-subtitle">
+              Hospitales registrados en la aplicación.
+            </h6>
+          </div>
+
+          <div class="col-4">
+            <div class="text-right">
+              <button
+                class="btn btn-success"
+                (click)="abrirModalNuevoHospital()"
+              >
+                Agregar Hospital
+                <i class="fa fa-hospital-o ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="w100 text-center">Imagen</th>
+                <th>Nombre</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of hospitales">
+                <td class="text-center">
+                  <img
+                    (click)="abrirModalImagen(item)"
+                    [src]="item.img | imagen : 'hospitales'"
+                    [alt]="item.nombre"
+                    class="avatar cursor"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nombre hospital"
+                    [(ngModel)]="item.nombre"
+                  />
+                </td>
+
+                <td class="text-center">
+                  <button
+                    class="btn btn-circle btn-primary btn-sm"
+                    (click)="actualizarHospital(item)"
+                  >
+                    <i class="fa fa-save mb-1"></i>
+                  </button>
+                  &nbsp;
+                  <button
+                    class="btn btn-circle btn-danger btn-sm"
+                    (click)="eliminarHospital(item)"
+                  >
+                    <i class="fa fa-trash mb-1"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalAgregarHospital>
+  <div class="modal-content">
+    <div class="modal-header bg-primary">
+      <h4 class="modal-title text-white">Agregar Nuevo Hospital</h4>
+      <button
+        type="button"
+        class="close cursor text-white"
+        aria-hidden="true"
+        (click)="bsModalRef.hide()"
+      >
+        ×
+      </button>
+    </div>
+    <div class="modal-body">
+      <label class="form-label">Nombre:</label>
+      <input type="text" class="form-control" [(ngModel)]="nombreHospital" />
+      <span *ngIf="nombreHospital == ''" class="text-left text-danger">
+        Debe ingresar un nombre para el hospital.
+      </span>
+
+      <div class="text-center mt-3">
+        <button
+          class="btn btn-success"
+          (click)="agregarHospital()"
+          [disabled]="nombreHospital == ''"
+        >
+          Guardar
+          <i class="fa fa-save ml-1"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #templateImg>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Subir Imagen</h4>
+      <button
+        type="button"
+        class="close cursor"
+        aria-hidden="true"
+        (click)="bsModalRef.hide()"
+      >
+        ×
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-modal-imagen
+        [img]="img"
+        [tipo]="tipo"
+        [id]="id"
+        (cerrarModal)="bsModalRef.hide()"
+        (obtenerHospitales)="obtenerHospitales()"
+      ></app-modal-imagen>
+    </div>
+  </div>
+</ng-template>

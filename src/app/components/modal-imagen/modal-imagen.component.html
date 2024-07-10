@@ -12,6 +12,9 @@
   class="mt-5 form-control"
 />
 <br />
+<span *ngIf="imagen == undefined" class="text-left text-danger">
+  Debe seleccionar una imagen.
+</span>
 <span *ngIf="imagenValida == false" class="text-left text-danger">
   Debe seleccionar un formato válido (.jpg, .png, .jpeg)
 </span>
@@ -24,7 +27,23 @@
   >
     Cancelar
   </button>
-  <button type="button" class="btn btn-primary" (click)="guardarImagen()">
+  <button
+    type="button"
+    [ngStyle]="{
+      cursor:
+        (imagenValida == false || imagenValida == undefined) &&
+        imagen == undefined
+          ? 'not-allowed'
+          : 'pointer'
+    }"
+    class="btn btn-primary"
+    (click)="guardarImagen()"
+    [ngClass]=""
+    [disabled]="
+      (imagenValida == false || imagenValida == undefined) &&
+      imagen == undefined
+    "
+  >
     Actualizar imagen
   </button>
 </div>

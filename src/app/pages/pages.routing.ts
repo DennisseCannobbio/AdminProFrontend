@@ -14,6 +14,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosComponent } from './mantenedor/usuarios/usuarios.component';
 import { MedicosComponent } from './mantenedor/medicos/medicos.component';
 import { HospitalesComponent } from './mantenedor/hospitales/hospitales.component';
+import { MedicoComponent } from './mantenedor/medicos/medico/medico.component';
 
 
 
@@ -34,8 +35,9 @@ const routes: Routes = [
 
             // Mantenedor
             { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios de aplicación' }},
-            { path: 'medicos', component: MedicosComponent, data: { titulo: 'Medicos' }},
-            { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Hospitales' }},
+            { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Mantenedor Hospitales' }},
+            { path: 'medicos', component: MedicosComponent, data: { titulo: 'Mantenedor Medicos' }},
+            { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Mantenedor Medicos' }},
 
 
         ]

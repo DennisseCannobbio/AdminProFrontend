@@ -21,6 +21,8 @@ export class ModalImagenComponent implements OnInit {
   @Input() id: any;
   @Output() cerrarModal = new EventEmitter<string>();
   @Output() obtenerUsuarios = new EventEmitter<any>();
+  @Output() obtenerHospitales = new EventEmitter<any>();
+  @Output() obtenerMedicos = new EventEmitter<any>();
 
 
   constructor(
@@ -29,6 +31,7 @@ export class ModalImagenComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.img)
   }
 
   adjuntarImagen(file: any) {
@@ -55,10 +58,12 @@ export class ModalImagenComponent implements OnInit {
   }
 
   guardarImagen(){
-
     Swal.fire({
       title: '¿Está seguro/a?',
-      text: 'Se actualizará su foto de perfil.',
+      text:
+      this.tipo == 'usuarios' ? 'Se actualizará su foto de perfil.'
+      : this.tipo == 'hospitales' ? 'Se actualizará la imagen del hospital.'
+      : 'Se actualizará la imagen del médico.',
       icon: 'question',
       confirmButtonText: 'Aceptar',
       showCancelButton: true,
@@ -71,7 +76,10 @@ export class ModalImagenComponent implements OnInit {
           if(data.ok == true) {
             Swal.fire({
               title: 'Éxito!',
-              text: 'Se ha actualizado su foto perfil.',
+              text:
+              this.tipo == 'usuarios' ? 'Se ha actualizado su foto de perfil.'
+              : this.tipo == 'hospitales' ? 'Se ha actualizado la imagen del hospital.'
+              : 'Se ha actualizado la imagen del médico.',
               icon: 'success',
               confirmButtonText: 'Aceptar',
             })
@@ -80,14 +88,36 @@ export class ModalImagenComponent implements OnInit {
                 // this.usuario.img = data.nombreArchivo;
                 this.imagenEv = null;
                 this.cerrar();
-                this.actualizarUsuarios();
+
+                switch (this.tipo) {
+                  case 'usuarios':
+                    this.actualizarUsuarios();
+                    break;
+
+                  case 'hospitales':
+                    this.actualizarHospitales();
+
+                      break;
+
+                  case 'medicos':
+                    this.actualizarMedicos();
+                    break;
+                }
               }
             })
           } else {
-            Swal.fire('Error', 'No se actualizó la foto de perfil.', 'error');
+            Swal.fire('Error',
+              this.tipo == 'usuarios' ? 'No se actualizó su foto de perfil.'
+              : this.tipo == 'hospitales' ? 'No se actualizó la imagen del hospital.'
+              : 'No se actualizó la imagen del médico.',
+              'error');
           }
         }).catch(() => {
-          Swal.fire('Error', 'No se actualizó la foto de perfil.', 'error');
+          Swal.fire('Error',
+          this.tipo == 'usuarios' ? 'No se actualizó su foto de perfil.'
+          : this.tipo == 'hospitales' ? 'No se actualizó la imagen del hospital.'
+          : 'No se actualizó la imagen del médico.',
+          'error');
         })
       } else {
         Swal.fire('Operación Cancelada', 'No se han realizado cambios.', 'error');
@@ -103,4 +133,11 @@ export class ModalImagenComponent implements OnInit {
     this.obtenerUsuarios.emit();
   }
 
+  actualizarHospitales(){
+    this.obtenerHospitales.emit();
+  }
+
+  actualizarMedicos(){
+    this.obtenerMedicos.emit();
+  }
 }

@@ -1,0 +1,106 @@
+<div class="alert alert-info text-center" *ngIf="cargando">
+  <h4 class="alert-heading">Cargando...</h4>
+  <i class="fa fa-spin fa-refresh fa-2x"></i>
+  <p class="mb-0">Por favor espere...</p>
+</div>
+
+<div class="row" *ngIf="!cargando">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Médico</h4>
+        <h6 class="card-subtitle">Información</h6>
+        <form
+          class="form p-t-20"
+          [formGroup]="medicoForm"
+          (ngSubmit)="guardar()"
+        >
+          <div class="form-group" *ngIf="medicoSeleccionado">
+            <label for="exampleInputuname">Imagen</label>
+            <div class="input-group">
+              <img
+                class="w200"
+                [src]="medicoSeleccionado.img | imagen : 'medicos'"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputuname">Nombre</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-user-md"></i>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputuname"
+                placeholder="Nombre"
+                formControlName="nombre"
+              />
+            </div>
+            <span
+              *ngIf="f.nombre.errors?.required"
+              class="text-danger text-left"
+            >
+              Debe ingresar el nombre del médico.
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Hospital</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-hospital-o"></i>
+              </div>
+              <select class="form-control" formControlName="hospital">
+                <option value="">Seleccione Hospital</option>
+                <option *ngFor="let item of lstHospitales" [value]="item._id">
+                  {{ item.nombre }}
+                </option>
+              </select>
+            </div>
+            <span
+              *ngIf="f.hospital.errors?.required"
+              class="text-danger text-left"
+            >
+              Debe seleccionar un hospital.
+            </span>
+          </div>
+          <button
+            type="submit"
+            [disabled]="medicoForm.invalid"
+            class="btn btn-success waves-effect waves-light m-r-10"
+            [ngStyle]="{
+              cursor: medicoForm.invalid ? 'not-allowed' : 'pointer'
+            }"
+          >
+            <i class="fa fa-save"></i>
+            Guardar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-danger waves-effect waves-light"
+            routerLink="/dashboard/medicos"
+          >
+            <i class="fa fa-arrow-left"></i>
+            Volver
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 animated fadeIn fast" *ngIf="hospitalSeleccionado">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Hospital</h4>
+        <h6 class="card-subtitle">{{ hospitalSeleccionado.nombre }}</h6>
+
+        <img
+          class="w200 img-thumbnail"
+          [src]="hospitalSeleccionado.img | imagen : 'hospitales'"
+        />
+      </div>
+    </div>
+  </div>
+</div>
