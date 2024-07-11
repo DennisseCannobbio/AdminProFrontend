@@ -21,6 +21,7 @@ import { HospitalesComponent } from './mantenedor/hospitales/hospitales.componen
 import { MedicosComponent } from './mantenedor/medicos/medicos.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MedicoComponent } from './mantenedor/medicos/medico/medico.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 
 
@@ -38,6 +39,7 @@ import { MedicoComponent } from './mantenedor/medicos/medico/medico.component';
     HospitalesComponent,
     MedicosComponent,
     MedicoComponent,
+    BusquedaComponent,
   ],
   exports: [
     DashboardComponent,

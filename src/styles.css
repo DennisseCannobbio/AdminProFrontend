@@ -24,6 +24,10 @@
   align-items: center;
 }
 
+.w75{
+  width: 75px;
+}
+
 .w100{
   width: 100px;
 }

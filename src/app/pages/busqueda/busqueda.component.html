@@ -1,0 +1,116 @@
+<div class="row animated fadeIn fast">
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body">
+        <h3>Usuarios</h3>
+
+        <div
+          class="alert alert-info animated fadeIn fast"
+          *ngIf="lstUsuarios.length === 0"
+        >
+          <p class="mb-0">No existen usuarios para el término buscado.</p>
+        </div>
+
+        <div
+          class="table-responsive animated fadeIn fast"
+          *ngIf="lstUsuarios.length > 0"
+        >
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Avatar</th>
+                <th>Nombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lstUsuarios">
+                <td>
+                  <img [src]="item.img | imagen : 'usuarios'" class="w75" />
+                </td>
+                <td>{{ item.nombre }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body">
+        <h3>Médicos</h3>
+
+        <div
+          class="alert alert-info animated fadeIn fast"
+          *ngIf="lstMedicos.length === 0"
+        >
+          <p class="mb-0">No existen médicos para el término buscado.</p>
+        </div>
+
+        <div
+          class="table-responsive animated fadeIn fast"
+          *ngIf="lstMedicos.length > 0"
+        >
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Médico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lstMedicos">
+                <td>
+                  <img [src]="item.img | imagen : 'medicos'" class="w75" />
+                </td>
+                <td>
+                  <a [routerLink]="['/dashboard/medico', item._id]">
+                    {{ item.nombre }}
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body">
+        <h3>Hospitales</h3>
+
+        <div
+          class="alert alert-info animated fadeIn fast"
+          *ngIf="lstHospitales.length === 0"
+        >
+          <p class="mb-0">No existen hospitales para el término buscado.</p>
+        </div>
+
+        <div
+          class="table-responsive animated fadeIn fast"
+          *ngIf="lstHospitales.length > 0"
+        >
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Hospital</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lstHospitales">
+                <td>
+                  <img [src]="item.img | imagen : 'hospitales'" class="w75" />
+                </td>
+                <td>{{ item.nombre }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

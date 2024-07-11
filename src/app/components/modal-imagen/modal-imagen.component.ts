@@ -31,7 +31,7 @@ export class ModalImagenComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.img)
+
   }
 
   adjuntarImagen(file: any) {
